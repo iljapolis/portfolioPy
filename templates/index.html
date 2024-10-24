@@ -47,19 +47,24 @@
         <form action="/send_email" method="POST">
             <label for="name">Name</label>
             <input type="text" id="name" name="name" required>
-        
+            
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
-        
+            
             <label for="message">Message</label>
             <textarea id="message" name="message" rows="5" required></textarea>
-        
+            
+            <!-- Add the reCAPTCHA widget here -->
+            <div class="g-recaptcha" data-sitekey="6Lf-6WoqAAAAAJsIGQBV-6IkMuxuPmpAiYH1Ab_2"></div>
+            
             <button type="submit">Send</button>
         </form>
     </section>
+    
 
     <footer>
         <p>&copy; 2024 My Portfolio. All rights reserved.</p>
     </footer>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>
