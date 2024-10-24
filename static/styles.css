@@ -82,12 +82,12 @@ section {
     box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
-/* Classic Paragraph Styling */
+/* Paragraph Styling with Heading Font */
 #about p {
     max-width: 800px;
     margin: 1.5rem 0;
-    color: #222;
-    font-family: 'Georgia', serif; /* A more classic font for readability */
+    color: #000; /* Set text color to black */
+    font-family: 'Roboto', sans-serif; /* Same font as headings */
     font-size: 1.1rem;
     line-height: 1.8;
     background: rgba(255, 255, 255, 0.85);
