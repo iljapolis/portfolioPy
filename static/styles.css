@@ -4,32 +4,43 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+    background: linear-gradient(135deg, #f0f2f5, #cfd9df);
     color: #333;
+    transition: all 0.3s ease-in-out;
 }
 
 /* Header Styles */
 header {
-    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    background: #3a6186;
+    background: linear-gradient(135deg, #3a6186, #89253e);
     color: #fff;
-    padding: 1.5rem;
-    text-align: center;
+    padding: 2rem 0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
 }
 
 nav h1 {
     margin: 0;
-    font-size: 2rem;
+    font-size: 2.2rem;
 }
 
 nav ul {
     list-style: none;
-    padding: 0;
+    display: flex;
+    gap: 20px;
+    margin: 0;
 }
 
 nav ul li {
-    display: inline;
-    margin: 0 15px;
+    margin: 0;
 }
 
 nav a {
@@ -45,52 +56,89 @@ nav a:hover {
 
 /* Section Styles */
 section {
-    padding: 2.5rem;
+    padding: 4rem 2rem;
     background: #fff;
     margin: 2rem auto;
-    max-width: 900px;
+    max-width: 1100px;
     border-radius: 10px;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
 }
 
-/* Heading Styles */
-h2 {
-    color: #ff7e5f;
-    border-bottom: 2px solid #ff7e5f;
-    padding-bottom: 0.5rem;
-    font-size: 1.8rem;
-    margin-bottom: 1rem;
+/* About Section */
+#about {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
 }
 
-/* Portfolio Item Styles */
+#about p {
+    max-width: 700px;
+    margin: 1rem 0;
+    color: #555;
+    line-height: 1.7;
+}
+
+/* Portfolio Section */
+#portfolio {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
 .portfolio-item {
-    background: #f7f7f7;
-    margin: 1.5rem 0;
+    background: #fffcf2;
     padding: 1.5rem;
-    border-radius: 8px;
-    transition: transform 0.3s ease, background 0.3s ease;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
 }
 
 .portfolio-item:hover {
     transform: translateY(-5px);
-    background: #ffebee;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
 }
 
 .portfolio-item h3 {
+    color: #3a6186;
     margin-top: 0;
-    color: #ff7e5f;
 }
 
 .portfolio-item p {
-    color: #555;
+    color: #666;
+    margin-bottom: 1rem;
+}
+
+.portfolio-item::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background: rgba(255, 126, 95, 0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.portfolio-item:hover::after {
+    opacity: 1;
 }
 
 /* Form Styles */
+#contact {
+    text-align: center;
+}
+
 form {
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 input, textarea {
@@ -102,57 +150,63 @@ input, textarea {
 }
 
 input:focus, textarea:focus {
-    border-color: #ff7e5f;
+    border-color: #3a6186;
     outline: none;
 }
 
 button {
-    background: linear-gradient(135deg, #ff7e5f, #feb47b);
+    background: linear-gradient(135deg, #3a6186, #89253e);
     color: #fff;
     border: none;
-    padding: 0.8rem;
+    padding: 0.75rem 2rem;
     font-size: 1rem;
     cursor: pointer;
-    border-radius: 5px;
+    border-radius: 30px;
+    align-self: flex-end;
     transition: background 0.3s ease;
+    max-width: 200px;
+    margin-left: auto;
 }
 
 button:hover {
-    background: linear-gradient(135deg, #feb47b, #ff7e5f);
+    background: linear-gradient(135deg, #89253e, #3a6186);
 }
 
-/* Footer Styles */
 footer {
     text-align: center;
-    padding: 1.5rem;
-    background: #ff7e5f;
+    padding: 2rem;
+    background: #3a6186;
     color: #fff;
-    margin-top: 2rem;
     border-top-left-radius: 15px;
     border-top-right-radius: 15px;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
 }
 
 footer p {
     margin: 0;
+    font-size: 0.9rem;
 }
 
 /* Media Query for Mobile */
 @media (max-width: 768px) {
-    nav ul li {
-        display: block;
-        margin: 10px 0;
+    nav {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
     }
 
     section {
         margin: 1rem;
-        padding: 1.5rem;
+        padding: 2rem;
     }
 
-    .portfolio-item {
-        padding: 1rem;
+    #portfolio {
+        grid-template-columns: 1fr;
     }
 
     button {
-        font-size: 0.9rem;
+        width: 100%;
+        max-width: none;
     }
 }
