@@ -115,20 +115,34 @@ p {
 }
 
 /* Buttons */
+/* Contact Form Button */
 .btn {
-    background-color: #356ba2;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
     color: #fff;
-    padding: 0.75rem 1.5rem;
-    border-radius: 5px;
+    padding: 0.75rem 2.5rem;
+    border-radius: 50px;
     border: none;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
     font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    display: inline-block;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    margin-top: 1rem;
+    text-transform: uppercase; /* Makes text all caps */
+    letter-spacing: 1px; /* Adds a bit of spacing between letters */
 }
 
 .btn:hover {
-    background-color: #99ccff;
+    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
+
+.btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
 
 /* Contact Form */
 form {
