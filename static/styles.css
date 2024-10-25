@@ -115,8 +115,7 @@ p {
 }
 
 /* Buttons */
-/* Contact Form Button */
-.btn {
+button {
     background: linear-gradient(135deg, #ff416c, #ff4b2b);
     color: #fff;
     padding: 0.75rem 2.5rem;
@@ -132,13 +131,13 @@ p {
     letter-spacing: 1px; /* Adds a bit of spacing between letters */
 }
 
-.btn:hover {
+button:hover {
     background: linear-gradient(135deg, #ff4b2b, #ff416c);
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
 
-.btn:active {
+button:active {
     transform: translateY(1px);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
