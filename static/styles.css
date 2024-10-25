@@ -116,7 +116,7 @@ p {
 
 /* Buttons */
 button {
-    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    background: linear-gradient(135deg, #356ba2, #99ccff);
     color: #fff;
     padding: 0.75rem 2.5rem;
     border-radius: 50px;
@@ -132,7 +132,7 @@ button {
 }
 
 button:hover {
-    background: linear-gradient(135deg, #ff4b2b, #ff416c);
+    background: linear-gradient(135deg, #99ccff, #356ba2);
     transform: translateY(-3px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
