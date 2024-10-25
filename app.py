@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for
+from dotenv import load_dotenv
+import os
 import requests
 import smtplib
 from email.mime.text import MIMEText
-from dotenv import load_dotenv
-import os
+
 
 load_dotenv()
 
@@ -36,8 +37,8 @@ def send_email():
 
         try:
             sender_email = 'iljapolis.225@gmail.com'
-            receiver_email = os.getenv(EMAIL_ADDRESS)
-            password = os.getenv(GMAIL_APP_PASSWORD)
+            receiver_email = os.getenv("EMAIL_ADDRESS")
+            password = os.getenv("GMAIL_APP_PASSWORD")
 
             msg = MIMEText(f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}")
             msg['Subject'] = f"New message from {name}"
