@@ -10,11 +10,6 @@ from dotenv import load_dotenv
 app = Flask(__name__)
 load_dotenv()
 
-# Environment variables for email and reCAPTCHA secret
-EMAIL_ADDRESS = os.getenv('EMAIL_ADDRESS')
-EMAIL_PASSWORD = os.getenv('GMAIL_APP_PASSWORD')
-RECAPTCHA_SECRET_KEY = os.getenv('RECAPTCHA_SECRET_KEY')
-
 # Email regex pattern for server-side validation
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
 
@@ -36,7 +31,7 @@ def send_email():
     # Verify reCAPTCHA
     recaptcha_verification = requests.post(
         'https://www.google.com/recaptcha/api/siteverify',
-        data={'secret': RECAPTCHA_SECRET_KEY, 'response': recaptcha_response}
+        data={'secret': os.getenv('RECAPTCHA_SECRET_KEY'), 'response': recaptcha_response}
     )
     recaptcha_result = recaptcha_verification.json()
     if not recaptcha_result.get('success'):
@@ -45,13 +40,13 @@ def send_email():
     # Process and send email if validation passes
     msg = MIMEText(f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}")
     msg['Subject'] = f"New message from {name}"
-    msg['From'] = EMAIL_ADDRESS
-    msg['To'] = EMAIL_ADDRESS
+    msg['From'] = os.getenv('EMAIL_ADDRESS')
+    msg['To'] = os.getenv('EMAIL_ADDRESS')
 
     try:
         with smtplib.SMTP('smtp.gmail.com', 587) as server:
             server.starttls()
-            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            server.login(os.getenv('EMAIL_ADDRESS'), os.getenv('GMAIL_APP_PASSWORD'))
             server.send_message(msg)
         return redirect(url_for('home', success=True))
     except Exception as e:
