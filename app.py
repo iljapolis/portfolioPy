@@ -1,17 +1,22 @@
-from flask import Flask, render_template, request, redirect, url_for
-from dotenv import load_dotenv
 import os
-import requests
+import re
+from flask import Flask, request, redirect, url_for, render_template
 import smtplib
 from email.mime.text import MIMEText
+import requests
+from dotenv import load_dotenv
 
-
+# Initialize Flask app and load environment variables
+app = Flask(__name__)
 load_dotenv()
 
-app = Flask(__name__)
+# Environment variables for email and reCAPTCHA secret
+EMAIL_ADDRESS = os.getenv('EMAIL_ADDRESS')
+EMAIL_PASSWORD = os.getenv('GMAIL_APP_PASSWORD')
+RECAPTCHA_SECRET_KEY = os.getenv('RECAPTCHA_SECRET_KEY')
 
-# Replace with your secret key from Google reCAPTCHA
-RECAPTCHA_SECRET_KEY = '6Lf-6WoqAAAAAE15SbGfuKPCeGJM13Ex9mPgquvU'
+# Email regex pattern for server-side validation
+EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
 
 @app.route('/')
 def home():
@@ -19,44 +24,39 @@ def home():
 
 @app.route('/send_email', methods=['POST'])
 def send_email():
-    # Verify reCAPTCHA
+    name = request.form['name']
+    email = request.form['email']
+    message = request.form['message']
     recaptcha_response = request.form['g-recaptcha-response']
-    data = {
-        'secret': RECAPTCHA_SECRET_KEY,
-        'response': recaptcha_response
-    }
-    r = requests.post('https://www.google.com/recaptcha/api/siteverify', data=data)
-    result = r.json()
 
-    # Check if reCAPTCHA was successful
-    if result['success']:
-        # Process form data if reCAPTCHA was successful
-        name = request.form['name']
-        email = request.form['email']
-        message = request.form['message']
+    # Server-side email validation
+    if not EMAIL_REGEX.match(email):
+        return "Invalid email address. Please go back and enter a valid email.", 400
 
-        try:
-            sender_email = 'iljapolis.225@gmail.com'
-            receiver_email = os.getenv("EMAIL_ADDRESS")
-            password = os.getenv("GMAIL_APP_PASSWORD")
+    # Verify reCAPTCHA
+    recaptcha_verification = requests.post(
+        'https://www.google.com/recaptcha/api/siteverify',
+        data={'secret': RECAPTCHA_SECRET_KEY, 'response': recaptcha_response}
+    )
+    recaptcha_result = recaptcha_verification.json()
+    if not recaptcha_result.get('success'):
+        return "reCAPTCHA verification failed. Please try again.", 400
 
-            msg = MIMEText(f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}")
-            msg['Subject'] = f"New message from {name}"
-            msg['From'] = sender_email
-            msg['To'] = receiver_email
+    # Process and send email if validation passes
+    msg = MIMEText(f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}")
+    msg['Subject'] = f"New message from {name}"
+    msg['From'] = EMAIL_ADDRESS
+    msg['To'] = EMAIL_ADDRESS
 
-            with smtplib.SMTP('smtp.gmail.com', 587) as server:
-                server.starttls()
-                server.login(sender_email, password)
-                server.send_message(msg)
-
-            return redirect(url_for('home', success=True))
-        except Exception as e:
-            print(f"Error: {e}")
-            return redirect(url_for('home', success=False))
-    else:
-        # If reCAPTCHA failed, redirect back with an error
-        return redirect(url_for('home', success=False, recaptcha_failed=True))
+    try:
+        with smtplib.SMTP('smtp.gmail.com', 587) as server:
+            server.starttls()
+            server.login(EMAIL_ADDRESS, EMAIL_PASSWORD)
+            server.send_message(msg)
+        return redirect(url_for('home', success=True))
+    except Exception as e:
+        print(f"Error: {e}")
+        return "There was an error sending your email. Please try again later.", 500
 
 if __name__ == '__main__':
     app.run(debug=True)
