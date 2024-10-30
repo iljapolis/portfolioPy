@@ -7,7 +7,6 @@
     <title>Mans portfolio</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 
-    <!-- Inline styles moved into styles.css if necessary -->
 </head>
 <body>
     <header>
@@ -62,7 +61,7 @@
             <button type="submit">Aizsūtīt</button>
         </form>
     
-        <!-- JavaScript Validation -->
+
         <script>
             document.getElementById('contact-form').addEventListener('submit', function(event) {
                 const emailInput = document.getElementById('email');
@@ -76,10 +75,6 @@
         </script>
     </section>
     
-
-    <footer>
-        <p>&copy; 2024 Mans Portfolio. Visas tiesības ir aizsargātas.</p>
-    </footer>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 </body>
 </html>

@@ -6,11 +6,11 @@ from email.mime.text import MIMEText
 import requests
 from dotenv import load_dotenv
 
-# Initialize Flask app and load environment variables
+
 app = Flask(__name__)
 load_dotenv()
 
-# Email regex pattern for server-side validation
+
 EMAIL_REGEX = re.compile(r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$')
 
 @app.route('/')
@@ -24,11 +24,9 @@ def send_email():
     message = request.form['message']
     recaptcha_response = request.form['g-recaptcha-response']
 
-    # Server-side email validation
     if not EMAIL_REGEX.match(email):
         return "Invalid email address. Please go back and enter a valid email.", 400
 
-    # Verify reCAPTCHA
     recaptcha_verification = requests.post(
         'https://www.google.com/recaptcha/api/siteverify',
         data={'secret': os.getenv('RECAPTCHA_SECRET_KEY'), 'response': recaptcha_response}
@@ -37,7 +35,6 @@ def send_email():
     if not recaptcha_result.get('success'):
         return "reCAPTCHA verification failed. Please try again.", 400
 
-    # Process and send email if validation passes
     msg = MIMEText(f"Name: {name}\nEmail: {email}\n\nMessage:\n{message}")
     msg['Subject'] = f"New message from {name}"
     msg['From'] = os.getenv('EMAIL_ADDRESS')
